@@ -27,14 +27,25 @@ def generate_response(prompt):
     message=completion.choices[0].message.content
     return message
 
-user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
-
-if st.session_state["prompts"]:
-    messages = st.session_state["prompts"]
-
-    for message in reversed(messages[1:]): 
-        speaker = "🙂"
-        if message["role"]=="assistant":
-            speaker="🤖"
-
-        st.write(speaker + ": " + message["content"])
+ 
+def communicate():  
+    user_input = st.session_state.get("user_input", "")  
+    if user_input:  
+        response = generate_response(user_input)  
+        st.session_state['prompts'].append({"role": "assistant", "content":response})  
+        st.session_state['user_input'] = ""  
+        st.experimental_rerun()  
+    else:  
+        st.session_state['user_input'] = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)  
+  
+if st.session_state["prompts"]:  
+    messages = st.session_state["prompts"]  
+  
+    for message in reversed(messages[1:]):   
+        speaker = "🙂"  
+        if message["role"]=="assistant":  
+            speaker="🤖"  
+  
+        st.write(speaker + ": " + message["content"])  
+  
+communicate()  
