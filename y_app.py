@@ -1,51 +1,52 @@
-import openai
-import streamlit as st
-from streamlit_chat import message
-
-openai.api_type = "azure"
-openai.api_base = "https://gpt-mxteam.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
-openai.api_key = st.secrets["AOAI_API_KEY"]
-
-if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。文系商社マンが納得できるよう説明してくれます。"}]
-if 'generated' not in st.session_state:
-    st.session_state['generated'] = []
-if 'past' not in st.session_state:
-    st.session_state['past'] = []
-
-def generate_response(prompt):
-    st.session_state['prompts'].append({"role": "user", "content":prompt})
-    completion=openai.ChatCompletion.create(
-        engine="GPTshinobu", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
-        temperature=0.7, # The 'temperature' parameter controls the randomness of the response.
-        max_tokens=512, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
-        top_p=0.95, # The 'top_p' parameter controls the diversity of the response.
-        messages = st.session_state['prompts']
-    )
-    # The response is retrieved from the 'completion.choices' list and appended to the 'generated' list.
-    message=completion.choices[0].message.content
-    return message
-
- 
-def communicate():  
-    user_input = st.session_state.get("user_input", "")  
-    if user_input:  
-        response = generate_response(user_input)  
-        st.session_state['prompts'].append({"role": "assistant", "content":response})  
-        st.session_state['user_input'] = ""  
-        st.experimental_rerun()  
-    else:  
-        st.session_state['user_input'] = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)  
+import openai  
+import streamlit as st  
+from streamlit_chat import message  
   
-if st.session_state["prompts"]:  
-    messages = st.session_state["prompts"]  
+openai.api_type = "azure"  
+openai.api_base = "https://gpt-mxteam.openai.azure.com/"  
+openai.api_version = "2023-03-15-preview"  
+openai.api_key = st.secrets.get("AOAI_API_KEY")  
   
-    for message in reversed(messages[1:]):   
-        speaker = "🙂"  
-        if message["role"]=="assistant":  
-            speaker="🤖"  
+if 'prompts' not in st.session_state:  
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。文系商社マンが納得できるよう説明してくれます。"}]  
+if 'generated' not in st.session_state:  
+    st.session_state['generated'] = []  
+if 'past' not in st.session_state:  
+    st.session_state['past'] = []  
   
-        st.write(speaker + ": " + message["content"])  
+def generate_response(prompt):  
+    context = st.session_state['prompts'][-5:]  
+    context.append({"role": "user", "content":prompt})  
+    completion=openai.Completion.create(  
+        engine="GPTshinobu",  
+        prompt="\n".join([f"{message['role']}: {message['content']}" for message in context]),  
+        temperature=0.7,  
+        max_tokens=512,  
+        top_p=0.95,  
+    )  
+    message = completion.choices[0].text.strip()  
+    st.session_state['generated'].append(message)  
+    return message  
   
+   
+def communicate():    
+    user_input = st.session_state.get("user_input", "")    
+    if user_input:    
+        response = generate_response(user_input)    
+        st.session_state['prompts'].append({"role": "assistant", "content":response})    
+        st.session_state['user_input'] = ""    
+        st.experimental_rerun()    
+    else:    
+        st.session_state['user_input'] = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)    
+    
+if st.session_state["prompts"]:    
+    messages = st.session_state["prompts"]    
+    
+    for message in reversed(messages[1:]):     
+        speaker = "🙂"    
+        if message["role"]=="assistant":    
+            speaker="🤖"    
+    
+        st.write(speaker + ": " + message["content"])    
+    
 communicate()  
