@@ -37,8 +37,6 @@ def new_topic_click():
     st.session_state['generated'] = []
     st.session_state['user'] = ""
 
-# The 'chat_click' function is defined to send the user's message to the AI model 
-# and append the response to the conversation history.
 def chat_click():
     if st.session_state['user']!= '':
         user_chat_input = st.session_state['user']
