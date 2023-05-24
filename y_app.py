@@ -34,7 +34,7 @@ def communicate():
     if user_input:    
         response = generate_response(user_input)    
         st.session_state['prompts'].append({"role": "assistant", "content":response})    
-        st.session_state['user_input'] = ""    
+        st.session_state.sync()  # st.session_state を更新する  
         st.experimental_rerun()    
     else:    
         st.session_state['user_input'] = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)    
