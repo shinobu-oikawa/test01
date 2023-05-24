@@ -9,7 +9,7 @@ from streamlit_chat import message
 # The 'openai.api_type' is set to 'azure' to indicate that the API is being used with Azure OpenAI Service.
 openai.api_type = "azure"
 # The 'openai.api_base' is set to the base URL for the Azure OpenAI Service resource.
-openai.api_base = "https://PLEASE_ENTER_YOUR_OWN_AOAI_RESOURCE_NAME.openai.azure.com/"
+openai.api_base = "https://gpt-mxteam.openai.azure.com/"
 # The 'openai.api_version' is set to the API version for the Azure OpenAI Service resource.
 # https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference/preview/2023-03-15-preview/inference.json
 openai.api_version = "2023-03-15-preview"
@@ -18,25 +18,11 @@ openai.api_version = "2023-03-15-preview"
 # The 'openai.api_key' is set to the API key retrieved from the Streamlit secrets manager.
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
-# Streamlit to set the page header and icon.
-st.set_page_config(
-        page_title="Robo Minion",
-        page_icon="🤖",
-    )
-
-# Streamlit to set the page layout and make a simple page title and logo.
-col1, col2 = st.columns([1,2])
-with col1:
-    st.image("./images/robo_minion_icon_v1.png", width=200)
-with col2:
-    st.title("Robo Minion 🤖")
-    st.header("Powered by AOAI - GPT 3.5 Turbo 🚀")
-
 # Initializes the Streamlit session state with default values for the 'prompts', 'generated', 'past'.
 # The 'prompts' list stores the conversation history, with each message represented as a dictionary with 'role' and 'content' keys.
 # Deine the 'role' key as 'system' for the AI model's messages.
 if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "You are a robotic minion created by Eason in Minions.app Laboratory. You are upbeat and friendly. Your response should be as concise with a sense of humor. You introduce yourself when first saying, Bello! Buddy. If the user asks you for anything information about Minions, or Despicable Me, or Universal Studios,  you will try to use our intelligence to reply. If the user asks you not related Minions, or Despicable Me, or Universal Studios, you will tell them I don't know."}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。文系商社マンが納得できるよう説明してくれます。"}]
 # The 'generated' list stores the AI model's responses to the user's messages.
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
@@ -51,7 +37,7 @@ def generate_response(prompt):
     st.session_state['prompts'].append({"role": "user", "content":prompt})
     # The 'openai.ChatCompletion.create' function is used to generate a response from the AI model.
     completion=openai.ChatCompletion.create(
-        engine="PLEASE_ENTER_YOUR_OWN_AOAI_GPT35_TURBO_DEPLOYMENT_NAME", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
+        engine="GPTshinobu", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
         temperature=0.7, # The 'temperature' parameter controls the randomness of the response.
         max_tokens=512, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
         top_p=0.95, # The 'top_p' parameter controls the diversity of the response.
