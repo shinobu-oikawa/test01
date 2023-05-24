@@ -47,7 +47,7 @@ def chat_click():
         st.session_state['user'] = ""
 
 # The user's input is retrieved from the 'user' session state.
-user_input=st.text_input("You:", key="user")
+user_input=st.text_area("You:",height=50, key="user")
 
 # Streamlit to set the page layout and make the chat & new topic button.
 col1, col2, col3, col4, col5, col6 = st.columns([1,1,1,1,1,1])
