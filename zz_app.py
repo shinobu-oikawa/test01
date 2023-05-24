@@ -1,41 +1,23 @@
-# Imports the OpenAI API and Streamlit libraries.
 import openai
 import streamlit as st
 from streamlit_chat import message
 
-# Sets up the OpenAI API configuration for the Azure endpoint of the Azure OpenAI Service resource.
-# The API key is retrieved from the Streamlit secrets manager for security purposes.
-
-# The 'openai.api_type' is set to 'azure' to indicate that the API is being used with Azure OpenAI Service.
 openai.api_type = "azure"
-# The 'openai.api_base' is set to the base URL for the Azure OpenAI Service resource.
 openai.api_base = "https://gpt-mxteam.openai.azure.com/"
-# The 'openai.api_version' is set to the API version for the Azure OpenAI Service resource.
-# https://github.com/Azure/azure-rest-api-specs/blob/main/specification/cognitiveservices/data-plane/AzureOpenAI/inference/preview/2023-03-15-preview/inference.json
 openai.api_version = "2023-03-15-preview"
-# The 'openai.api_key' is set to the API key manually retrieved from the Azure OpenAI Service resource.
-# openai.api_key = "PLEASE_ENTER_YOUR_OWN_API_KEY"
-# The 'openai.api_key' is set to the API key retrieved from the Streamlit secrets manager.
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
-# Initializes the Streamlit session state with default values for the 'prompts', 'generated', 'past'.
-# The 'prompts' list stores the conversation history, with each message represented as a dictionary with 'role' and 'content' keys.
-# Deine the 'role' key as 'system' for the AI model's messages.
 if 'prompts' not in st.session_state:
     st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。文系商社マンが納得できるよう説明してくれます。"}]
-# The 'generated' list stores the AI model's responses to the user's messages.
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
-# The 'past' list stores the user's previous messages.
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
 # Define the 'generate_response' function to send the user's message to the AI model 
 # and append the response to the 'generated' list.
 def generate_response(prompt):
-    # The 'prompts' list is updated with the user's message before sending it to the AI model.
     st.session_state['prompts'].append({"role": "user", "content":prompt})
-    # The 'openai.ChatCompletion.create' function is used to generate a response from the AI model.
     completion=openai.ChatCompletion.create(
         engine="GPTshinobu", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
         temperature=0.7, # The 'temperature' parameter controls the randomness of the response.
