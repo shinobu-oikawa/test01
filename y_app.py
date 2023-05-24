@@ -54,9 +54,3 @@ with col1:
 chat_button=st.form_submit_button("質問する", on_click=chat_click)
 with col2:
 new_topic_button=st.button("リセット", on_click=new_topic_click)
-
-# The 'message' function is defined to display the messages in the conversation history.
-if st.session_state['generated']:
-for i in range(len(st.session_state['generated'])-1, -1, -1):
-message(st.session_state['generated'][i], avatar_style='bottts', key=str(i))
-message(st.session_state['past'][i], is_user=True, avatar_style='thumbs', key=str(i) + '_user')
