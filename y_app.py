@@ -1,6 +1,5 @@
 import openai  
 import streamlit as st  
-from streamlit_chat import message  
   
 openai.api_type = "azure"  
 openai.api_base = "https://gpt-mxteam.openai.azure.com/"  
