@@ -6,8 +6,8 @@ from streamlit_chat import message
 # Streamlit Community Cloudの「Secrets」からOpenAI API keyを取得
 openai.api_type="azure"
 openai.api_base="https://gpt-mxteam.opena.azure.com/"
-open.api_version="2023-03-15-preview"
-open.api_key=st.secrets["A0AI_API_KEY"]
+openai.api_version="2023-03-15-preview"
+openai.api_key=st.secrets["A0AI_API_KEY"]
 
 # st.session_stateを使いメッセージのやりとりを保存
 if "messages" not in st.session_state:
