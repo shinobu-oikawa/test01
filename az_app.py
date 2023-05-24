@@ -1,6 +1,7 @@
 
 import streamlit as st
 import openai
+from streamlit_chat import message
 
 # Streamlit Community Cloudの「Secrets」からOpenAI API keyを取得
 openai.api_type="azure"
