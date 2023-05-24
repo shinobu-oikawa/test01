@@ -30,34 +30,9 @@ def generate_response(prompt):
     message=completion.choices[0].message.content
     return message
 
-# The 'new_topic_click' function is defined to reset the conversation history and introduce the AI assistant.
-def new_topic_click():
-    st.session_state['prompts'] = [{"role": "system", "content": "You are a robotic minion created by Eason in Minions.app Laboratory. You are upbeat and friendly. Your response should be as concise with a sense of humor. You introduce yourself when first saying, Bello! Buddy. If the user asks you for anything information about Minions, or Despicable Me, or Universal Studios,  you will try to use our intelligence to reply. If the user asks you not related Minions, or Despicable Me, or Universal Studios, you will tell them I don't know."}]
-    st.session_state['past'] = []
-    st.session_state['generated'] = []
-    st.session_state['user'] = ""
+user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
 
-def chat_click():
-    if st.session_state['user']!= '':
-        user_chat_input = st.session_state['user']
-        output=generate_response(user_chat_input)
-        st.session_state['past'].append(user_chat_input)
-        st.session_state['generated'].append(output)
-        st.session_state['prompts'].append({"role": "assistant", "content": output})
-        st.session_state['user'] = ""
+if st.session_state["messages"]:
+    messages = st.session_state["messages"]
 
-# The user's input is retrieved from the 'user' session state.
-user_input=st.text_input("You:", key="user")
-
-# Streamlit to set the page layout and make the chat & new topic button.
-col1, col2, col3, col4, col5, col6 = st.columns([1,1,1,1,1,1])
-with col1:
-    chat_button=st.button("Send", on_click=chat_click)
-with col2:
-    new_topic_button=st.button("New Topic", on_click=new_topic_click)
-
-# The 'message' function is defined to display the messages in the conversation history.
-if st.session_state['generated']:
-    for i in range(len(st.session_state['generated'])-1, -1, -1):
-        message(st.session_state['generated'][i], avatar_style='bottts', key=str(i))
-        message(st.session_state['past'][i], is_user=True, avatar_style='thumbs', key=str(i) + '_user')
+         st.write(speaker + ": " + message["content"])
