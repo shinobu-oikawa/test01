@@ -29,7 +29,8 @@ response = openai.ChatCompletion.create(
   frequency_penalty=0,
   presence_penalty=0,
   stop=None,
-messages=messages)
+messages=messages
+)
 
 bot_message = response["choices"][0]["message"]
 messages.append(bot_message)
