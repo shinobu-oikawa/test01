@@ -1,55 +1,65 @@
-import openai  
-import streamlit as st  
-  
-openai.api_type = "azure"  
-openai.api_base = "https://gpt-mxteam.openai.azure.com/"  
-openai.api_version = "2023-03-15-preview"  
-openai.api_key = st.secrets.get("AOAI_API_KEY")  
- 
-  # st.session_stateを使いメッセージのやりとりを保存
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [
-        {"role": "system", "content": "あなたは優秀なアシスタントAIです。"}
-        ]
+import openai
+import streamlit as st
+from streamlit_chat import message
 
-# チャットボットとやりとりする関数
-def communicate():
-    messages = st.session_state["messages"]
+openai.api_type = "azure"
+openai.api_base = "https://gpt-mxteam.openai.azure.com/"
+openai.api_version = "2023-03-15-preview"
+openai.api_key = st.secrets["AOAI_API_KEY"]
 
-    user_message = {"role": "user", "content": st.session_state["user_input"]}
-    messages.append(user_message)
-    
-response = openai.ChatCompletion.create(  
-  engine="GPTshinobu",  
-  prompt=[{"role":"system","content":"You are an AI assistant that helps people find information."}],  
-  temperature=0.7,  
-  max_tokens=1974,  
-  top_p=0.95,  
-  frequency_penalty=0,  
-  presence_penalty=0,  
-  stop=None,  
-  messages=messages  
-)  
-  
-bot_message = response["choices"][0]["text"]  
-messages.append({"role": "assistant", "content": bot_message})  
+if 'prompts' not in st.session_state:
+st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアが納得できるような説明します。特に定量的に説明するのが好きです。"}]
+if 'generated' not in st.session_state:
+st.session_state['generated'] = []
+if 'past' not in st.session_state:
+st.session_state['past'] = []
 
+# Define the 'generate_response' function to send the user's message to the AI model
+# and append the response to the 'generated' list.
+def generate_response(prompt):
+st.session_state['prompts'].append({"role": "user", "content":prompt})
+completion=openai.ChatCompletion.create(
+engine="GPTshinobu", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
+temperature=0.5, # The 'temperature' parameter controls the randomness of the response.
+max_tokens=4000, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
+top_p=0.95, # The 'top_p' parameter controls the diversity of the response.
+# The 'messages' parameter is set to the 'prompts' list to provide context for the AI model.
+messages = st.session_state['prompts']
+)
+# The response is retrieved from the 'completion.choices' list and appended to the 'generated' list.
+message=completion.choices[0].message.content
+return message
 
-st.session_state["user_input"] = ""  # 入力欄を消去
+# The 'new_topic_click' function is defined to reset the conversation history and introduce the AI assistant.
+def new_topic_click():
+st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアが納得できるような説明します。特に定量的に説明するのが好きです。"}]
+st.session_state['past'] = []
+st.session_state['generated'] = []
+st.session_state['user'] = ""
 
+def chat_click():
+if st.session_state['user']!= '':
+user_chat_input = st.session_state['user']
+output=generate_response(user_chat_input)
+st.session_state['past'].append(user_chat_input)
+st.session_state['generated'].append(output)
+st.session_state['prompts'].append({"role": "assistant", "content": output})
+st.session_state['user'] = ""
 
-# ユーザーインターフェイスの構築
-st.title("My AI Assistant")
-st.write("ChatGPT APIを使ったチャットボットです。")
+# The user's input is retrieved from the 'user' session state.
+user_input=st.text_input("",key="user",placeholder="メッセージを入力してください")
 
-user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
+# Streamlit to set the page layout and make the chat & new topic button.
+col1, col2, col3 = st.columns([1,1,10])
+with col1:
+st.image("https://img.icons8.com/color/48/000000/send-comment.png", width=50, on_click=chat_click)
+with col2:
+st.image("https://img.icons8.com/color/48/000000/delete-sign.png", width=50, on_click=new_topic_click)
 
-if st.session_state["messages"]:
-    messages = st.session_state["messages"]
-
-    for message in reversed(messages[1:]):  # 直近のメッセージを上に
-        speaker = "🙂"
-        if message["role"]=="assistant":
-            speaker="🤖"
-
-        st.write(speaker + ": " + message["content"])
+# The 'message' function is defined to display the messages in the conversation history.
+if st.session_state['generated']:
+for i in range(len(st.session_state['generated'])-1, -1, -1):
+if st.session_state['prompts'][i]["role"] == "user":
+st.write(f"You: {st.session_state['prompts'][i]['content']}")
+else:
+st.write(f"Bot: {st.session_state['prompts'][i]['content']}")
