@@ -20,20 +20,21 @@ def communicate():
     user_message = {"role": "user", "content": st.session_state["user_input"]}
     messages.append(user_message)
     
-response = openai.ChatCompletion.create(
-  engine="GPTshinobu",
-  messages = [{"role":"system","content":"You are an AI assistant that helps people find information."}],
-  temperature=0.7,
-  max_tokens=1974,
-  top_p=0.95,
-  frequency_penalty=0,
-  presence_penalty=0,
-  stop=None,
-messages=messages
-)
+response = openai.ChatCompletion.create(  
+  engine="GPTshinobu",  
+  prompt=[{"role":"system","content":"You are an AI assistant that helps people find information."}],  
+  temperature=0.7,  
+  max_tokens=1974,  
+  top_p=0.95,  
+  frequency_penalty=0,  
+  presence_penalty=0,  
+  stop=None,  
+  messages=api_messages  
+)  
+  
+bot_message = response["choices"][0]["text"]  
+messages.append({"role": "assistant", "content": bot_message})  
 
-bot_message = response["choices"][0]["message"]
-messages.append(bot_message)
 
 st.session_state["user_input"] = ""  # 入力欄を消去
 
