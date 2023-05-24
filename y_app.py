@@ -14,8 +14,6 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
-# Define the 'generate_response' function to send the user's message to the AI model 
-# and append the response to the 'generated' list.
 def generate_response(prompt):
     st.session_state['prompts'].append({"role": "user", "content":prompt})
     completion=openai.ChatCompletion.create(
@@ -23,7 +21,6 @@ def generate_response(prompt):
         temperature=0.7, # The 'temperature' parameter controls the randomness of the response.
         max_tokens=512, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
         top_p=0.95, # The 'top_p' parameter controls the diversity of the response.
-        # The 'messages' parameter is set to the 'prompts' list to provide context for the AI model.
         messages = st.session_state['prompts']
     )
     # The response is retrieved from the 'completion.choices' list and appended to the 'generated' list.
@@ -32,10 +29,10 @@ def generate_response(prompt):
 
 user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
 
-if st.session_state["messages"]:
-    messages = st.session_state["messages"]
+if st.session_state["prompts"]:
+    messages = st.session_state["prompts"]
 
-    for message in reversed(messages[1:]):  # 直近のメッセージを上に
+    for message in reversed(messages[1:]): 
         speaker = "🙂"
         if message["role"]=="assistant":
             speaker="🤖"
