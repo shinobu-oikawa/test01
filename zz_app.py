@@ -52,7 +52,7 @@ user_input=st.text_input("You:", key="user")
 # Streamlit to set the page layout and make the chat & new topic button.
 col1, col2, col3, col4, col5, col6 = st.columns([1,1,1,1,1,1])
 with col1:
-    chat_button=st.button("質問する", on_click=chat_click)
+    chat_button=st.button("質問", on_click=chat_click)
 with col2:
     new_topic_button=st.button("リセット", on_click=new_topic_click)
 
