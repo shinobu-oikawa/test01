@@ -8,7 +8,7 @@ openai.api_version = "2023-03-15-preview"
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
 if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアが納得できるような説明します。特に定量的に説明するのが好きです。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアや経営者が納得できるような説明します。特に定量的に説明するのが好きです。"}]
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 if 'past' not in st.session_state:
