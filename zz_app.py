@@ -8,7 +8,7 @@ openai.api_version = "2023-03-15-preview"
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
 if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアや経営者が納得できるような説明します。特に定量的に説明するのが好きです。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、定量的に説明し、経営者を共感させることができます。"}]
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 if 'past' not in st.session_state:
@@ -32,7 +32,7 @@ def generate_response(prompt):
 
 # The 'new_topic_click' function is defined to reset the conversation history and introduce the AI assistant.
 def new_topic_click():
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントです。トップエンジニアが納得できるような説明します。特に定量的に説明するのが好きです。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、定量的に説明し、経営者を共感させることができます。"}]
     st.session_state['past'] = []
     st.session_state['generated'] = []
     st.session_state['user'] = ""
