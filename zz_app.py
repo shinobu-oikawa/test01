@@ -7,7 +7,7 @@ openai.api_base = "https://gpt-mxteam.openai.azure.com/"
 openai.api_version = "2023-03-15-preview"
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
-st.title("MXTeam Test")
+st.title("MXTeam GPT")
 
 if 'prompts' not in st.session_state:
     st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、定量的に説明し、経営者を共感させることができます。"}]
