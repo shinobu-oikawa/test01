@@ -10,7 +10,7 @@ openai.api_key = st.secrets["AOAI_API_KEY"]
 st.title("MXTeam GPT")
 
 if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、箇条書きで非常に詳細に説明してくれます"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、箇条書きで非常に詳細に説明してくれます。参考URLも提示します。"}]
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 if 'past' not in st.session_state:
@@ -34,7 +34,7 @@ def generate_response(prompt):
 
 # The 'new_topic_click' function is defined to reset the conversation history and introduce the AI assistant.
 def new_topic_click():
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、箇条書きで非常に詳細に説明してくれます。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、箇条書きで非常に詳細に説明してくれます。参考URLも提示します。"}]
     st.session_state['past'] = []
     st.session_state['generated'] = []
     st.session_state['user'] = ""
