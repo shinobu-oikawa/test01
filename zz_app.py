@@ -10,7 +10,7 @@ openai.api_key = st.secrets["AOAI_API_KEY"]
 st.title("MXTeam GPT (Trial ver.)")
 
 if 'prompts' not in st.session_state:
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは優秀なAIアシスタントで、箇条書きで非常に詳細に文量が多く説明してくれます。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは優秀なAIアシスタントで、箇条書きで非常に詳細に原因までさかのぼって説明してくれます。"}]
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
 if 'past' not in st.session_state:
