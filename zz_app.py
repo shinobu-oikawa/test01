@@ -34,7 +34,7 @@ def generate_response(prompt):
 
 # The 'new_topic_click' function is defined to reset the conversation history and introduce the AI assistant.
 def new_topic_click():
-    st.session_state['prompts'] = [{"role": "system", "content": "あなたは非常に優秀なAIアシスタントで、箇条書きで非常に詳細に説明してくれます。"}]
+    st.session_state['prompts'] = [{"role": "system", "content": "あなたは優秀なAIアシスタントで、箇条書きで非常に詳細に原因までさかのぼって説明してくれます。"}]
     st.session_state['past'] = []
     st.session_state['generated'] = []
     st.session_state['user'] = ""
