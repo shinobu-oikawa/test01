@@ -23,7 +23,7 @@ def generate_response(prompt):
     completion=openai.ChatCompletion.create(
         engine="GPTshinobu", # The 'engine' parameter specifies the name of the OpenAI GPT-3.5 Turbo engine to use.
         temperature=0.7, # The 'temperature' parameter controls the randomness of the response.
-        max_tokens=8000, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
+        max_tokens=4000, # The 'max_tokens' parameter controls the maximum number of tokens in the response.
         top_p=0.92, # The 'top_p' parameter controls the diversity of the response.
         # The 'messages' parameter is set to the 'prompts' list to provide context for the AI model.
         messages = st.session_state['prompts']
