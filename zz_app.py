@@ -7,7 +7,7 @@ openai.api_base = "https://gpt4shinobu.openai.azure.com/"
 openai.api_version = "2023-03-15-preview"
 openai.api_key = st.secrets["AOAI_API_KEY"]
 
-st.title("MXTeam GPT-4 (Trial ver.)")
+st.title("MXTeam GPT-4 32k (Trial ver.)")
 
 if 'prompts' not in st.session_state:
     st.session_state['prompts'] = [{"role": "system", "content": "あなたは優秀なAIアシスタントで、箇条書きで非常に詳細に文量多く説明してくれます。"}]
