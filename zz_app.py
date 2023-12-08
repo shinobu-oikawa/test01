@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 from streamlit_chat import message
 
-openai.api_type, openai.api_base, openai.api_version, openai.api_key = "azure", "https://gpt4shinobu.openai.azure.com/", "2023-03-15-preview", st.secrets["AOAI_API_KEY"]
+openai.api_type, openai.api_base, openai.api_version, openai.api_key = "azure", "https://gpt4shinobu.openai.azure.com/", "2023-07-01-preview", st.secrets["AOAI_API_KEY"]
 
 st.title("MXTeam GPT-4 32k (Trial ver.)")
 
